@@ -5,7 +5,7 @@
 sudo systemctl enable sshd
 sudo systemctl start sshd
 
-sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch
+sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps
 
 
 
@@ -23,8 +23,8 @@ cp -r config/. ~/.config/
 # Copy Wallpaper
 cp -r .wallP  ~/
 
-
-
+chmod +x  ~/.config/bspwm/*
+cp .bashrc ~/
 
 #### Install yay  (need base-devel + user in sudoers)		######
 
