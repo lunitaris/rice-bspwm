@@ -1,0 +1,38 @@
+#! /bin/sh
+
+
+~/.config/polybar/hack/launch.sh & # Status bar
+xsetroot -cursor_name left_ptr & # X cursor fix
+dunst & # Notifications
+feh --bg-fill ~/.wallP/wallpaper.jpg & # Wallpaper
+sxhkd & # Keyboard shortcuts
+
+
+bspc monitor -d 1 2 3 4 5
+
+bspc config border_width         0
+bspc config window_gap           10
+
+bspc config split_ratio          0.50
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+bspc config focus_follows_pointer true
+
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
+
+# bspc config single_monocle     true
+
+
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+
+# Autorandr workspace management
+bspc subscribe monitor | while read -r line; do
+  case $line in
+      monitor_add*|monitor_remove*)
+          killall bspc && sleep 1 && bspc wm -r
+  esac
+done &

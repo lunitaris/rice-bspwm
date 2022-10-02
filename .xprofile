@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# timemanager &
+# setxkbmap fr mac
+xsetroot -cursor_name left_ptr
+xset +fp /usr/share/fonts/misc/
+xset fp rehash
+xset b off
+xrandr -s 1920x1080
