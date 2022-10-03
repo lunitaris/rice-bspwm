@@ -1,10 +1,10 @@
 #!/bin/bash
 # Script by Lunitaris
-
+#
 # Works with fresh installed ArchLinux with bspwm.
 # Just clone the repo wherever you want and launch install.sh
 # To get updates, run 'git fetch' in the folder then install.sh
-
+#
 # First run: will install all packages and create a flag file in ~/.config/.green
 #       This flag is just there for the install.sh script to next time you run it it won't re-install or update your packages.
 #       So it won't broke packages with updates.
@@ -65,7 +65,7 @@ function updateConf {
 
     touch ~/.config/.green      # Flag file just for the install.sh script to know you already installed all packages.
     echo "Done!"
-    source .bashrc ~/
+    source ~/.bashrc
 }
 
 
@@ -88,7 +88,7 @@ function firstInstall {
     fi
 
     echo "Installing Nerd fonts"
-    yay -S st nerd-fonts-fira-code nerd-fonts-jetbrains-mono
+    yay -S nerd-fonts-fira-code nerd-fonts-jetbrains-mono
 }
 
 
