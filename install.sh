@@ -73,7 +73,7 @@ function firstInstall {
 
     echo "Installing all packages..."
     # The "--noconfirm --needed" options tells pacman to just install if not present without asking confirmation.
-    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps --noconfirm --needed
+    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps ttf-iosevka-nerd --noconfirm --needed
 
     # Check if 'yay' (AUR helper, package manager) is installed. Install it if not.
     # Will be needed to easely install any fonts
