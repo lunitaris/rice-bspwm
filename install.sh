@@ -1,37 +1,155 @@
 #!/bin/bash
+# Script by Lunitaris
+
+# Works with fresh installed ArchLinux with bspwm.
+# Just clone the repo wherever you want and launch install.sh
+# To get updates, run 'git fetch' in the folder then install.sh
+
+# First run: will install all packages and create a flag file in ~/.config/.green
+#       This flag is just there for the install.sh script to next time you run it it won't re-install or update your packages.
+#       So it won't broke packages with updates.
+# Next runs: Will just deploy dotfiles.
+
+# Backup directory
+# Every time you run the script, it will re-create this folder and save your conf.
+# You can rollback to last backup with the '-r' flag.
+BKP_FOLDER="~/.configBKP"
+
+# USAGE
+# install.sh        --> Will install or update your conf.
+# install.sh -r     --> Rollback configs to last backup (if any).
+# install.sh -b     --> Backup configs to $BKP_FOLDER folder
+
+if [[ $1 != "" && $1 != "-r" && $1 != "-b" ]]
+then
+    echo "Usage:"
+    echo " $0"
+    echo " $0 [-b | -r | -h]"
+    echo ""
+    echo "   -b    backup current config"
+    echo "   -r    rollback config to last backup"
+    echo "   -h    shows this help message"
+    echo ""
+    echo "   Note: Backup folder is set to :  $BKP_FOLDER"
+    echo "   To install or update config just launch without args"
+    echo ""
+fi
+
+
+#   Script must be launched as user because it will potentialy install yay and use it.
+#   And you are proprietary of you dotfiles so no need to be root. Will exit if not.
+if [[ ! "$EUID" -ne 0 ]]
+  then echo "Please run as normal user!"
+  exit
+fi
+
+
+# Get directory where script install.sh is located
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+function updateConf {
+
+    makeBackup
+
+    echo "Installing Lunitaris's bspwm rice..."
+    # Copy Xorg and bashrc config files to user directory
+    cp $SCRIPT_DIR/.xinitrc     ~/
+    cp $SCRIPT_DIR/.xprofile    ~/
+    cp $SCRIPT_DIR/.Xresources  ~/
+    cp $SCRIPT_DIR/.bashrc      ~/
+
+    
+    cp -r $SCRIPT_DIR/config/. ~/.config/   # Copy all configs to user directory
+    cp -r $SCRIPT_DIR/.wallP    ~/          # Copy Wallpaper
+    chmod +x  ~/.config/bspwm/*
+
+    touch ~/.config/.green      # Flag file just for the install.sh script to know you already installed all packages.
+    echo "Done!"
+    source .bashrc ~/
+}
+
+
+function firstInstall {
+
+    echo "Installing all packages..."
+    # The "--noconfirm --needed" options tells pacman to just install if not present without asking confirmation.
+    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps --noconfirm --needed
+
+    # Check if 'yay' (AUR helper, package manager) is installed. Install it if not.
+    # Will be needed to easely install any fonts
+    if [[ ! `which yay &> /dev/null` ]]
+    then
+        echo 'yay is not installed, going to install it...'
+        cd /tmp/
+        git clone https://aur.archlinux.org/yay.git
+        sudo chown -R  $USER:users yay
+        cd yay
+        makepkg -si
+    fi
+
+    echo "Installing Nerd fonts"
+    yay -S st nerd-fonts-fira-code nerd-fonts-jetbrains-mono
+}
 
 
 
-sudo systemctl enable sshd
-sudo systemctl start sshd
+function makeBackup {
+    echo "Creating backup of current config..."
+    rm -rf $BKP_FOLDER 2> /dev/null
+    mkdir $BKP_FOLDER
 
-sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps
+    cp ~/.xinitrc       $BKP_FOLDER
+    cp ~/.xprofile      $BKP_FOLDER
+    cp ~/.Xresources    $BKP_FOLDER
+    cp ~/.bashrc        $BKP_FOLDER
+
+    mkdir $BKP_FOLDER/.config
+    cp -r  ~/.config/bspwm      $BKP_FOLDER/.config/
+    cp -r  ~/.config/dunst      $BKP_FOLDER/.config/
+    cp -r  ~/.config/gtk-3.0    $BKP_FOLDER/.config/
+    cp -r  ~/.config/polybar    $BKP_FOLDER/.config/
+    cp -r  ~/.config/rofi       $BKP_FOLDER/.config/
+    cp -r  ~/.config/sxhkd      $BKP_FOLDER/.config/
+    echo "Backup made in $BKP_FOLDER"
+}
 
 
+function rollbackBackup {
+    echo "Rolling back changes to last backup ($BKP_FOLDER)..."
+
+    # Check for backup foler
+    if [[ ! -d "$BKP_FOLDER" ]]
+    then
+        echo "Sorry mate, you don't have any backup (directory $DIRECTORY does not exist)"
+        echo "Could not rollback you config to last backup"
+        exit 1
+    fi
+
+    cp $BKP_FOLDER/.xinitrc        ~/
+    cp $BKP_FOLDER/.xprofile       ~/
+    cp $BKP_FOLDER/.Xresources     ~/
+    cp $BKP_FOLDER/.bashrc         ~/
+
+    cp -r  $BKP_FOLDER/.config/bspwm      ~/.config/
+    cp -r  $BKP_FOLDER/.config/dunst    ~/.config/
+    cp -r  $BKP_FOLDER/.config/gtk-3.0  ~/.config/
+    cp -r  $BKP_FOLDER/.config/polybar  ~/.config/
+    cp -r  $BKP_FOLDER/.config/rofi     ~/.config/
+    cp -r  $BKP_FOLDER/.config/sxhkd    ~/.config/
+    echo "Last backup has been re-deployed!"
+}
 
 
-
-# Copy Xorg config files to user directory
-cp .xinitrc ~/
-cp .xprofile ~/
-cp .Xresources ~/
+##############################################################################################################
+#================================================ MAIN ======================================================#
+##############################################################################################################
 
 
-# Copy All configs to user directory
-cp -r config/. ~/.config/
+[[ $1 == "-r" ]] && { rollbackBackup; exit 0; }
+[[ $1 == "-b" ]] && { makeBackup; exit 0; }
 
-# Copy Wallpaper
-cp -r .wallP  ~/
+# Shortland just for fun ;)
+# If .green flag file exists, update. If Not, install and update.
+[[ -f "~/.config/.green" ]] && { updateConf; exit 0; } || { firstInstall ; updateConf; }
 
-chmod +x  ~/.config/bspwm/*
-cp .bashrc ~/
-
-#### Install yay  (need base-devel + user in sudoers)		######
-
-git clone https://aur.archlinux.org/yay.git
-sudo chown -R  $USER:users yay
-cd yay
-makepkg -si
-
-yay -S st nerd-fonts-fira-code nerd-fonts-jetbrains-mono
-
+exit 0
