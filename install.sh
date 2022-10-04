@@ -149,7 +149,7 @@ function setupAutologinX {
         echo "Configurating system for autologin user on tty1 and automatically start X..."
         echo "Uninstalling lightdm display manager, won't be using it anymore"
         sudo systemctl stop lightdm
-        sudo pacman -Rcns lightdm -noconfirm 
+        sudo pacman -Rcns lightdm --noconfirm 
 
         echo "Creating  drop-in file to override getty@tty1 service conf.."
         # Create a drop-in file to override systemd  'getty@tty1.service' unit 
