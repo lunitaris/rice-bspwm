@@ -140,6 +140,36 @@ function rollbackBackup {
 }
 
 
+
+# Configure system to autologin user on tty1 and lauch X server. (no display manager required)
+function setupAutologinX {
+
+    if [[ -f "/etc/systemd/system/getty@tty1.service.d/autologin.conf" ]]
+    then
+        echo "Configurating system for autologin user on tty1 and automatically start X..."
+        echo "Uninstalling lightdm display manager, won't be using it anymore"
+        sudo pacman -Rcns lightdm -noconfirm 
+
+        echo "Creating  drop-in file to override getty@tty1 service conf.."
+        # Create a drop-in file to override systemd  'getty@tty1.service' unit 
+        # so user automatically login in tty1 at boot
+        sudo mkdir -p /etc/systemd/system/getty@tty1.service.d/
+
+        sudo bash -c "cat > /etc/systemd/system/getty@tty1.service.d/autologin.conf <<\EOF
+        [Service]
+        ExecStart=
+        ExecStart=-/sbin/agetty -o '-p -f -- \\\\u' --noclear --autologin $USER %I \$TERM
+        Type=simple
+        EOF"
+
+        # Automatically launch 'startx' cmd if entering tty1 
+        echo '[[ "$(tty)" = "/dev/tty1"  ]] && startx' >  ~/.bash_profile
+        echo "Done configuring autologin and X startup"
+    fi
+}
+
+
+
 ##############################################################################################################
 #================================================ MAIN ======================================================#
 ##############################################################################################################
@@ -150,6 +180,6 @@ function rollbackBackup {
 
 # Shortland just for fun ;)
 # If .green flag file exists, update. If Not, install and update.
-[[ -f "~/.config/.green" ]] && { updateConf; exit 0; } || { firstInstall ; updateConf; }
+[[ -f "~/.config/.green" ]] && { updateConf; exit 0; } || { firstInstall ; setupAutologinX; updateConf; }
 
 exit 0

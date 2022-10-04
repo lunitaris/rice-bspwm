@@ -22,7 +22,7 @@ Of course, if you are new to Archlinux, i highly recommend you to install it on 
 
 
 ### Note
-This configuration is a mix of my own and various config files I took from people (mainly found on unixporn reddit)
+This configuration is a mix of my own and various config files I took from people (mainly found on unixporn reddit).
 Here are my inspiration and also others interresting configs to look:<br>
 https://github.com/Kurolox/dotfiles<br>
 https://github.com/Mofiqul/Dotfiles
