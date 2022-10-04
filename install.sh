@@ -144,10 +144,11 @@ function rollbackBackup {
 # Configure system to autologin user on tty1 and lauch X server. (no display manager required)
 function setupAutologinX {
 
-    if [[ -f "/etc/systemd/system/getty@tty1.service.d/autologin.conf" ]]
+    if [[ ! -f "/etc/systemd/system/getty@tty1.service.d/autologin.conf" ]]
     then
         echo "Configurating system for autologin user on tty1 and automatically start X..."
         echo "Uninstalling lightdm display manager, won't be using it anymore"
+        sudo systemctl stop lightdm
         sudo pacman -Rcns lightdm -noconfirm 
 
         echo "Creating  drop-in file to override getty@tty1 service conf.."
@@ -160,7 +161,7 @@ function setupAutologinX {
         ExecStart=
         ExecStart=-/sbin/agetty -o '-p -f -- \\\\u' --noclear --autologin $USER %I \$TERM
         Type=simple
-        EOF"
+EOF"
 
         # Automatically launch 'startx' cmd if entering tty1 
         echo '[[ "$(tty)" = "/dev/tty1"  ]] && startx' >  ~/.bash_profile
