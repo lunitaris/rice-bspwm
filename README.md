@@ -1,12 +1,4 @@
-# rice-bspwm
-My Rice for Bspwm
-
-## Prerequisites
-
-Install Archlinux with bspwm.
-To speed up process you can use the `archinstall` command and select the installation profile as Desktop with bspwm.
-Of course, if you are new to Archlinux, i fully recommend you to install it on your own to learn how linux works.
-
+# My personal dotfiles for bspwm (rice) : 
 
 
 ## Description
@@ -20,6 +12,13 @@ This is my personal rice of Archlinux + bspwm, including:
 - dunst notifications
 - Kitty configuration (todo)
 - alacritty configuration (todo)
+
+## Prerequisites
+
+Install Archlinux with bspwm.
+To speed up process you can use the `archinstall` command and select the installation profile as Desktop with bspwm.
+Of course, if you are new to Archlinux, i fully recommend you to install it on your own to learn how linux works.
+
 
 
 ### Note
