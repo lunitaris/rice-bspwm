@@ -49,8 +49,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 function updateConf {
 
-    makeBackup
-
     echo "Installing Lunitaris's bspwm rice..."
     # Copy Xorg and bashrc config files to user directory
     cp $SCRIPT_DIR/.xinitrc     ~/
@@ -180,7 +178,19 @@ EOF"
 [[ $1 == "-b" ]] && { makeBackup; exit 0; }
 
 # Shortland just for fun ;)
-# If .green flag file exists, update. If Not, install and update.
-[[ -f "~/.config/.green" ]] && { updateConf; exit 0; } || { firstInstall ; setupAutologinX; updateConf; }
+#[[ -f "~/.config/.green" ]] && { makeBackup; updateConf; exit 0; } || { firstInstall ; setupAutologinX; updateConf; }
+
+if [[ -f "~/.config/.green" ]]  # If .green flag file exists, update. If Not, install and update.
+then
+    makeBackup
+    updateConf
+    exit 0
+else
+    firstInstall
+    updateConf
+    setupAutologinX
+    echo "Installation is finished, you may reboot now!"
+fi
+
 
 exit 0
