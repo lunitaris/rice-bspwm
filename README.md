@@ -5,6 +5,7 @@
 This is my personal rice of Archlinux + bspwm, including:
 
 - BSPWM and SXHKD configuration and keybindings
+- Picom configuration (todo)
 - Polybar configuration and scripts
 - A custom .Xresources color palette
 - GTK theme
@@ -20,9 +21,9 @@ To speed up process you can use the `archinstall` command and select the install
 Of course, if you are new to Archlinux, i highly recommend you to install it on your own to learn how linux works.
 
 
-
 ### Note
 This configuration is a mix of my own and various config files I took from people (mainly found on unixporn reddit).
 Here are my inspiration and also others interresting configs to look:<br>
 https://github.com/Kurolox/dotfiles<br>
-https://github.com/Mofiqul/Dotfiles
+https://github.com/Mofiqul/Dotfiles<br>
+https://github.com/GlitchMill/dotfiles

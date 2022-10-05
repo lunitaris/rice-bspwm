@@ -8,12 +8,14 @@
 # First run: will install all packages and create a flag file in ~/.config/.green
 #       This flag is just there for the install.sh script to next time you run it it won't re-install or update your packages.
 #       So it won't broke packages with updates.
+#
 # Next runs: Will just deploy dotfiles.
+#   Every time you run the script, it will re-create this folder and save your conf.
+#   You can rollback to last backup with the '-r' flag.
 
-# Backup directory
-# Every time you run the script, it will re-create this folder and save your conf.
-# You can rollback to last backup with the '-r' flag.
-BKP_FOLDER="~/.configBKP"
+
+BKP_FOLDER="~/.configBKP"   # Backup directory, 
+VM="true"                   # set 'true' if running inside a VM to install vmtools. If Not, set 'false'
 
 # USAGE
 # install.sh        --> Will install or update your conf.
@@ -72,6 +74,12 @@ function firstInstall {
     echo "Installing all packages..."
     # The "--noconfirm --needed" options tells pacman to just install if not present without asking confirmation.
     sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps ttf-iosevka-nerd --noconfirm --needed
+    
+    if [[ $VM == "true" ]]      # If running in a VM, install vmtools
+    then
+        sudo pacman -S open-vm-tools --noconfirm --needed
+        sudo systemctl enable vmtoolsd
+    fi
 
     # Check if 'yay' (AUR helper, package manager) is installed. Install it if not.
     # Will be needed to easely install any fonts
