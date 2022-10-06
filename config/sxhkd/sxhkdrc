@@ -92,10 +92,10 @@ super + {y,i}
     {firefox,quodlibet}
 
 super + r
-	rofi
+	rofi -show drun
 
 super + Return
-    alacritty
+    kitty
  
 super + {u,o}
      $TERMINAL -e {ranger,nvim}

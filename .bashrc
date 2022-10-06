@@ -24,8 +24,14 @@ source /usr/share/doc/pkgfile/command-not-found.bash
 # colors
 alias grep="grep --color=auto"
 alias ls="ls --color=auto -F"
-alias ll="ls -la"
-alias lc='colorls -lA --sd'
+
+
+# Replace ls with lsd (an improoved version of ls with icons)
+alias ls='lsd'
+alias l='ls -l'
+alias la='ls -a'
+alias ll='ls -la'
+alias lt='ls --tree'
 
 PS1='[\u@\h \W]\$ '
 
