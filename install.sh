@@ -193,9 +193,9 @@ EOF"
 [[ $1 == "-b" ]] && { makeBackup; exit 0; }
 
 # Shortland just for fun ;)
-#[[ -f "~/.config/.green" ]] && { makeBackup; updateConf; exit 0; } || { firstInstall ; setupAutologinX; updateConf; }
+#[[ -f ~/.config/.green ]] && { makeBackup; updateConf; exit 0; } || { firstInstall ; setupAutologinX; updateConf; }
 
-if [[ -f "~/.config/.green" ]]  # If .green flag file exists, update. If Not, install and update.
+if [[ -f ~/.config/.green ]]  # If .green flag file exists, update. If Not, install and update.
 then
     makeBackup
     updateConf
