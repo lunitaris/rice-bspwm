@@ -73,7 +73,8 @@ function firstInstall {
 
     echo "Installing all packages..."
     # The "--noconfirm --needed" options tells pacman to just install if not present without asking confirmation.
-    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps ttf-iosevka-nerd --noconfirm --needed
+    sudo pacman -Sy
+    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps ttf-iosevka-nerd picom --noconfirm --needed
     sudo pacman -S exa lsd bat fd duf --noconfirm --needed      # Nice modern alternatives commands
     
     if [[ $VM == "true" ]]      # If running in a VM, install vmtools
@@ -111,11 +112,13 @@ function makeBackup {
     cp ~/.bashrc        $BKP_FOLDER
 
     mkdir $BKP_FOLDER/.config
+    cp -r  ~/.config/alacritty  $BKP_FOLDER/.config/
     cp -r  ~/.config/bspwm      $BKP_FOLDER/.config/
     cp -r  ~/.config/dunst      $BKP_FOLDER/.config/
     cp -r  ~/.config/gtk-3.0    $BKP_FOLDER/.config/
     cp -r  ~/.config/polybar    $BKP_FOLDER/.config/
     cp -r  ~/.config/rofi       $BKP_FOLDER/.config/
+    cp -r  ~/.config/picom      $BKP_FOLDER/.config/
     cp -r  ~/.config/sxhkd      $BKP_FOLDER/.config/
     echo "Backup made in $BKP_FOLDER"
 }
@@ -137,12 +140,15 @@ function rollbackBackup {
     cp $BKP_FOLDER/.Xresources     ~/
     cp $BKP_FOLDER/.bashrc         ~/
 
-    cp -r  $BKP_FOLDER/.config/bspwm      ~/.config/
-    cp -r  $BKP_FOLDER/.config/dunst    ~/.config/
-    cp -r  $BKP_FOLDER/.config/gtk-3.0  ~/.config/
-    cp -r  $BKP_FOLDER/.config/polybar  ~/.config/
-    cp -r  $BKP_FOLDER/.config/rofi     ~/.config/
-    cp -r  $BKP_FOLDER/.config/sxhkd    ~/.config/
+    
+    cp -r  $BKP_FOLDER/.config/alacritty    ~/.config/
+    cp -r  $BKP_FOLDER/.config/bspwm        ~/.config/
+    cp -r  $BKP_FOLDER/.config/dunst        ~/.config/
+    cp -r  $BKP_FOLDER/.config/gtk-3.0      ~/.config/
+    cp -r  $BKP_FOLDER/.config/polybar      ~/.config/
+    cp -r  $BKP_FOLDER/.config/picom        ~/.config/
+    cp -r  $BKP_FOLDER/.config/rofi         ~/.config/
+    cp -r  $BKP_FOLDER/.config/sxhkd        ~/.config/
     echo "Last backup has been re-deployed!"
 }
 
