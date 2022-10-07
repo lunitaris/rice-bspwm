@@ -33,6 +33,8 @@ alias la='ls -a'
 alias ll='ls -la'
 alias lt='ls --tree'
 
+alias cat='bat -P'
+
 PS1='[\u@\h \W]\$ '
 
 PATH=$PATH:~/.local/bin

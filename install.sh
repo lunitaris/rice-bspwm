@@ -73,7 +73,8 @@ function firstInstall {
 
     echo "Installing all packages..."
     # The "--noconfirm --needed" options tells pacman to just install if not present without asking confirmation.
-    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps ttf-iosevka-nerd exa lsd--noconfirm --needed
+    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps ttf-iosevka-nerd --noconfirm --needed
+    sudo pacman -S exa lsd bat fd duf --noconfirm --needed      # Nice modern alternatives commands
     
     if [[ $VM == "true" ]]      # If running in a VM, install vmtools
     then
