@@ -4,20 +4,19 @@
 # pscircle generate picture or wallpaper of current running processes.
 
 # Check if 'yay' (AUR helper, package manager) is installed.
-if [[ `which yay &> /dev/null` -eq 1 ]]
+if (! which yay &> /dev/null)
 then
     echo "yay is not installed, can't install pscircle"
     exit 1
 fi
 
-
-if [[ `which pscircle &> /dev/null` -eq 1 ]]
+if (! which pscircle &> /dev/null)
 then
     echo "Installing pscircle to generate wallpapers displaying process"
     yay -Sy pscircle
 fi
 
-if [[ `which pscircle &> /dev/null` -eq 0 ]]
+if (which pscircle &> /dev/null)
 then
     sudo cp pscircleSet /usr/bin/      # Custom script, launch pscircle with some args
 
