@@ -13,6 +13,8 @@ This is my personal rice of Archlinux + bspwm, including:
 - dunst notifications
 - Kitty configuration (todo)
 - alacritty configuration (todo)
+- pscircle configuration (as service)
+
 
 ## Prerequisites
 
@@ -22,6 +24,20 @@ Of course, if you are new to Archlinux, i highly recommend you to install it on 
 
 ## Installation
 
+```bash
+git clone https://github.com/lunitaris/rice-bspwm/
+cd rice-bspwm
+./install.sh
+```
+
+During the installation, your terminal might ring a bell before installing yay or running makepkg.
+This is just for alerting user to go check on installation script to answer to queries and not time-out install.
+
+### Bugs
+
+Black display at boot after the autologin.
+This is because xinit is starting too soon, before Vmware auto-resize screen. (I don't know exactly which service is involved)
+To fix the issue, just extend the sleep value in ~/.bash_profile
 
 ### Note
 This configuration is a mix of my own and various config files I took from people (mainly found on unixporn reddit).

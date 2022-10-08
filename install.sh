@@ -26,10 +26,11 @@ if [[ $1 != "" && $1 != "-r" && $1 != "-b" ]]
 then
     echo "Usage:"
     echo " $0"
-    echo " $0 [-b | -r | -h]"
+    echo " $0 [-b | -r | -i | -h]"
     echo ""
     echo "   -b    backup current config"
     echo "   -r    rollback config to last backup"
+    echo "   -i    reinstall packages"
     echo "   -h    shows this help message"
     echo ""
     echo "   Note: Backup folder is set to :  $BKP_FOLDER"
@@ -85,27 +86,27 @@ function firstInstall {
 
     # Check if 'yay' (AUR helper, package manager) is installed. Install it if not.
     # Will be needed to easely install any fonts
-    if [[ ! `which yay &> /dev/null` ]]
+    if [[ `which yay &> /dev/null` -eq 1 ]]
     then
         echo 'yay is not installed, going to install it...'
         cd /tmp/
         git clone https://aur.archlinux.org/yay.git
         sudo chown -R  $USER:users yay
         cd yay
+        printf '\a'     # Ring the terminal bell to alert user to go answer makepkg.
         makepkg -si
     fi
 
     echo "Pay attention to your terminal as yay is going to ask you for some inputs" && sleep 2
     echo "Installing Nerd fonts"
-    printf '\a'     # Ring the terminal bell to alert user to go check for yay questions.
+    printf '\a'     # Ring the terminal bell to alert user to go answser yay.
     yay -S nerd-fonts-fira-code nerd-fonts-jetbrains-mono
 
-    REP="y"
     echo ""
     echo "pscircle generates picture or wallpaper of running processes"
     echo "Your wallpaper would be generated every 30s, displaying current processes."
     read -p "Would you like to install it? (Y/n)" REP
-    if [[ "$REP" == "y" ]]
+    if [[ "$REP" == "y" || "$REP" == "" ]]
     then
         cd $SCRIPT_DIR/pscircle
         ./installPscirle.sh
@@ -192,7 +193,7 @@ function setupAutologinX {
 EOF"
 
         # Automatically launch 'startx' cmd if entering tty1 
-        echo '[[ "$(tty)" = "/dev/tty1"  ]] && startx' >  ~/.bash_profile
+        echo '[[ "$(tty)" = "/dev/tty1"  ]] && sleep 2; startx' >  ~/.bash_profile
         echo "Done configuring autologin and X startup"
     fi
 }
@@ -206,6 +207,7 @@ EOF"
 
 [[ $1 == "-r" ]] && { rollbackBackup; exit 0; }
 [[ $1 == "-b" ]] && { makeBackup; exit 0; }
+[[ $1 == "-i" ]] && { firstInstall; exit 0; }
 
 # Shortland just for fun ;)
 #[[ -f "$HOME/.config/.green" ]] && { makeBackup; updateConf; exit 0; } || { firstInstall ; setupAutologinX; updateConf; }
