@@ -97,6 +97,7 @@ function firstInstall {
 
     echo "Pay attention to your terminal as yay is going to ask you for some inputs" && sleep 2
     echo "Installing Nerd fonts"
+    printf '\a'     # Ring the terminal bell to alert user to go check for yay questions.
     yay -S nerd-fonts-fira-code nerd-fonts-jetbrains-mono
 
     REP="y"
