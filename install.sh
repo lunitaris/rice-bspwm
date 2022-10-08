@@ -95,13 +95,22 @@ function firstInstall {
         makepkg -si
     fi
 
-    echo "Pay attention to your terminal as yay is going to ask you for some inputs"
-    sleep 2
+    echo "Pay attention to your terminal as yay is going to ask you for some inputs" && sleep 2
     echo "Installing Nerd fonts"
     yay -S nerd-fonts-fira-code nerd-fonts-jetbrains-mono
 
-    cd $SCRIPT_DIR/pscircle
-    ./installPscirle.sh
+    REP="y"
+    echo ""
+    echo "pscircle generates picture or wallpaper of running processes"
+    echo "Your wallpaper would be generated every 30s, displaying current processes."
+    read -p "Would you like to install it? (Y/n)" REP
+    if [[ "$REP" == "y" ]]
+    then
+        cd $SCRIPT_DIR/pscircle
+        ./installPscirle.sh
+    fi
+
+    echo "Done installing all packages!"
 }
 
 

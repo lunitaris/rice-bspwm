@@ -1,6 +1,7 @@
 #!/bin/bash
 # Script by Lunitaris
-# Install pscircle, create a systemd service to launch it every x seconds to change wallpaper automatically
+# Install pscircle, create a systemd service to launch it every 30s seconds to change wallpaper automatically
+# pscircle generate picture or wallpaper of current running processes.
 
 # Check if 'yay' (AUR helper, package manager) is installed.
 if [[ `which yay &> /dev/null` ]]
@@ -24,6 +25,8 @@ then
     cp pscircleSet.service "$HOME/.config/systemd/user/"
     systemctl --user enable pscircleSet
     systemctl --user start pscircleSet
+    echo "Done installing pscircle."
+    echo "You can anager service by running 'systemctl --user status pscircleSet'"
 else
     echo "Error, pscircle command not found, is pscircle really installed?"
     echo "Not creating pscirle service as binary not found."
