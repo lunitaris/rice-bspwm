@@ -86,7 +86,7 @@ function firstInstall {
 
     # Check if 'yay' (AUR helper, package manager) is installed. Install it if not.
     # Will be needed to easely install any fonts
-    if (which yay &> /dev/null)
+    if (! which yay &> /dev/null)
     then
         echo 'yay is not installed, going to install it...'
         cd /tmp/
