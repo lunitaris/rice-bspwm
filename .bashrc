@@ -33,7 +33,8 @@ alias la='ls -a'
 alias ll='ls -la'
 alias lt='ls --tree'
 
-alias cat='bat -P'
+# Replace cat with 'bat' (display with colors)
+alias cat='bat -p'
 
 PS1='[\u@\h \W]\$ '
 

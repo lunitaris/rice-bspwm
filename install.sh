@@ -74,7 +74,7 @@ function firstInstall {
     echo "Installing all packages..."
     # The "--noconfirm --needed" options tells pacman to just install if not present without asking confirmation.
     sudo pacman -Sy
-    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps ttf-iosevka-nerd picom --noconfirm --needed
+    sudo pacman -S git polybar rofi dunst thunar kitty neovim btop xplr pkgfile alacritty feh unzip ranger neofetch fzf xorg-apps imagemagick ttf-iosevka-nerd picom --noconfirm --needed
     sudo pacman -S exa lsd bat fd duf --noconfirm --needed      # Nice modern alternatives commands
     
     if [[ $VM == "true" ]]      # If running in a VM, install vmtools
@@ -85,18 +85,23 @@ function firstInstall {
 
     # Check if 'yay' (AUR helper, package manager) is installed. Install it if not.
     # Will be needed to easely install any fonts
-    if [[ ! `which yay &> /dev/null` ]]
+    if [[ `which yay &> /dev/null` ]]
     then
         echo 'yay is not installed, going to install it...'
-        cd /tmp/
+        cd /opt/
         git clone https://aur.archlinux.org/yay.git
         sudo chown -R  $USER:users yay
         cd yay
         makepkg -si
     fi
 
+    echo "Pay attention to your terminal as yay is going to ask you for some inputs"
+    sleep 2
     echo "Installing Nerd fonts"
     yay -S nerd-fonts-fira-code nerd-fonts-jetbrains-mono
+
+    cd $SCRIPT_DIR/pscircle
+    ./installPscirle.sh
 }
 
 

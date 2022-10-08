@@ -1,0 +1,19 @@
+#!/bin/bash
+# Script by Lunitaris
+# Set the wallpaper with pscircle to correct monitor resolution and with custom parameters
+# Need to have pscircle installed (https://gitlab.com/mildlyparallel/pscircle/)
+
+RW=`xrandr | grep \* | cut -d' ' -f4 | cut -d'x' -f1`
+RH=`xrandr | grep \* | cut -d' ' -f4 | cut -d'x' -f2`
+
+pscircle --root-pid=1 --output-width=$RW --output-height=$RH \
+         --dot-radius=3 \
+         --memlist-show=false \
+         --cpulist-show=false \
+         --tree-font-size=16 \
+         --tree-anchor-proc-name=login \
+         --tree-radius-increment=100 \
+         --collapse-threads=true \
+         --link-width=1.5
+
+exit 0
