@@ -88,7 +88,7 @@ function firstInstall {
     if [[ ! `which yay &> /dev/null` ]]
     then
         echo 'yay is not installed, going to install it...'
-        cd /opt/
+        cd /tmp/
         git clone https://aur.archlinux.org/yay.git
         sudo chown -R  $USER:users yay
         cd yay
