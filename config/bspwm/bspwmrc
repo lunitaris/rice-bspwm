@@ -1,10 +1,10 @@
 #! /bin/sh
 
-
-~/.config/polybar/hack/launch.sh & # Status bar
+#picom &
+~/.config/polybar/launch.sh & # Status bar
 xsetroot -cursor_name left_ptr & # X cursor fix
 dunst & # Notifications
-feh --bg-fill ~/.wallP/wallpaper.jpg & # Wallpaper
+feh --bg-fill ~/.wallP/forest.jpg & # Wallpaper
 sxhkd & # Keyboard shortcuts
 
 

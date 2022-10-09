@@ -4,6 +4,10 @@
 super + Escape
 	pkill -USR1 -x sxhkd
 
+# Kill Xinit
+control + Alt + Backspace
+	killall xinit
+
 # quit/restart bspwm
 super + shift + r
 	bspc wm -r
@@ -51,57 +55,54 @@ super + control + {h,j,k,l}
 ##### Desktops #####
 
 # fr layout
-super + {_,shift + }ampersand
+control + {_,shift + }ampersand
 	{bspc desktop -f,bspc node -d} ^1
-super + {_,shift + }eacute
+control + {_,shift + }eacute
 	{bspc desktop -f,bspc node -d} ^2
-super + {_,shift + }quotedbl
+control + {_,shift + }quotedbl
 	{bspc desktop -f,bspc node -d} ^3
-super + {_,shift + }apostrophe
+control + {_,shift + }apostrophe
 	{bspc desktop -f,bspc node -d} ^4
-super + {_,shift + }parenleft
+control + {_,shift + }parenleft
 	{bspc desktop -f,bspc node -d} ^5
 
 
 
 
-super + Tab
+control + Tab
     bspc desktop next.occupied -f
 
-super + shift + Tab
+control + shift + Tab
     bspc desktop any.!occupied -f
 
-super + w
+control + w
     bspc node -f next.local.!hidden.window
 
-super + button{4,5}
+control + button{4,5}
     bspc desktop -f {next,prev}
 
 
 ##### Gaps #####
 
-super + alt + {j,k}
+control + alt + {j,k}
     ~/.config/sxhkd/inner_gaps {-10,+10}
-super + alt + {h,l}
+control + alt + {h,l}
     ~/.config/sxhkd/outer_gaps {-10,+10} -d focused
 
 
 ##### Programs #####
 
-super + {y,i}
+control + {y,i}
     {firefox,quodlibet}
 
-super + r
+control + r
 	rofi -show drun
 
-super + Return
+control + Return
     kitty
  
 super + {u,o}
      $TERMINAL -e {ranger,nvim}
-
-super + {minus,plus}
-    pactl set-sink-volume @DEFAULT_SINK@ {-,+}5%
 
 super + t
     toggle_bar & disown

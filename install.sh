@@ -15,7 +15,10 @@
 
 
 BKP_FOLDER="$HOME/.configBKP"   # Backup directory, 
-VM="true"                   # set 'true' if running inside a VM to install vmtools. If Not, set 'false'
+VM="true"                       # set 'true' if running inside a VM to install vmtools. If Not, set 'false'
+
+#pscircle generates picture or wallpaper of running processes
+INSTALL_PSCIRCLE="false"         # Install pscircle from AUR and set it to generate wallpaper every 30s
 
 # USAGE
 # install.sh        --> Will install or update your conf.
@@ -102,11 +105,7 @@ function firstInstall {
     printf '\a'     # Ring the terminal bell to alert user to go answser yay.
     yay -S nerd-fonts-fira-code nerd-fonts-jetbrains-mono
 
-    echo ""
-    echo "pscircle generates picture or wallpaper of running processes"
-    echo "Your wallpaper would be generated every 30s, displaying current processes."
-    read -p "Would you like to install it? (Y/n)" REP
-    if [[ "$REP" == "y" || "$REP" == "" ]]
+    if [[ "$INSTALL_PSCIRCLE" == "true" ]]
     then
         cd $SCRIPT_DIR/pscircle
         ./installPscirle.sh
@@ -193,7 +192,7 @@ function setupAutologinX {
 EOF"
 
         # Automatically launch 'startx' cmd if entering tty1 
-        echo '[[ "$(tty)" = "/dev/tty1"  ]] && sleep 2; startx' >  ~/.bash_profile
+        echo '[[ "$(tty)" = "/dev/tty1"  ]] && sleep 2 && startx' >  ~/.bash_profile
         echo "Done configuring autologin and X startup"
     fi
 }
