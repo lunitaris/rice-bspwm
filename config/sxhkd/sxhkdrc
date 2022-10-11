@@ -1,19 +1,20 @@
 ##### WM stuff #####
 
+# Show help
+super + slash
+    .config/rofi/rofi-helper.sh
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
 
-# Kill Xinit
-control + Alt + Backspace
-	killall xinit
 
 # quit/restart bspwm
-super + shift + r
+control + shift + r
 	bspc wm -r
 
 # close and kill
-super + shift + q
+control + shift + q
 	bspc node -c || bspc node -k
 
 
@@ -36,21 +37,24 @@ super + shift + f
     bspc node -t \~fullscreen
 
 #Toggle between tiled/floating mode
-super + shift + space
+control + shift + space
     state={floating,tiled} && bspc query -N -d -n .window | xargs -n1 -I '\{\}' bspc node \{\} -t $state
 
-# focus the node in the given direction
-super + {h,j,k,l}
+# focus the Window in the given direction
+Alt_L + {Left,Down,Up,Right}
     bspc node -f {west,south,north,east}
 
-# Move nodes
-super + shift + {h,j,k,l}
+# Move Window (Arrows or H,J,K,L)
+control + super + {h,j,k,l}
+    ~/.config/sxhkd/move {west,south,north,east}
+control + super + {Left,Down,Up,Right}
     ~/.config/sxhkd/move {west,south,north,east}
 
-# Resize Nodes
-super + control + {h,j,k,l}
+# Resize Window (Arrows or H,J,K,L)
+super + shift + {h,j,k,l}
     ~/.config/sxhkd/resize {west,south,north,east} 40
-
+super + shift +{Left,Down,Up,Right}
+    ~/.config/sxhkd/resize {west,south,north,east} 40
 
 ##### Desktops #####
 
@@ -95,10 +99,11 @@ control + alt + {h,l}
 control + {y,i}
     {firefox,quodlibet}
 
-control + r
+super + r
 	rofi -show drun
 
-control + Return
+# Open Terminal (Kitty)
+super + Return
     kitty
  
 super + {u,o}
